@@ -78,6 +78,12 @@ function queryContest($id) {
 function queryContestProblem($id) {
 	return DB::selectFirst("select * from contest_problems where contest_id = $id", MYSQLI_ASSOC);
 }
+function queryBannerName($name) {
+	return DB::selectFirst("select * from banner_info where banner_name = '{$name}'", MYSQLI_ASSOC);
+}
+function queryBannerStatus($name) {
+	return DB::selectFirst("select * from banner_info where banner_name = '{$name}'", MYSQLI_ASSOC);
+}
 
 function queryZanVal($id, $type, $user) {
 	if ($user == null) {

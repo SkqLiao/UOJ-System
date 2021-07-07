@@ -5,12 +5,24 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="nav navbar-nav mr-auto">
+			<?php if (queryBannerStatus('contest')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::url('/contests') ?>"><span class="glyphicon glyphicon-stats"></span> <?= UOJLocale::get('contests') ?></a></li>
+			<?php endif; ?>
+			<?php if (queryBannerStatus('problem')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::url('/problems') ?>"><span class="glyphicon glyphicon-list-alt"></span> <?= UOJLocale::get('problems') ?></a></li>
+			<?php endif; ?>
+			<?php if (queryBannerStatus('submission')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::url('/submissions') ?>"><span class="glyphicon glyphicon-tasks"></span> <?= UOJLocale::get('submissions') ?></a></li>
+			<?php endif; ?>
+			<?php if (queryBannerStatus('hack')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::url('/hacks') ?>"><span class="glyphicon glyphicon-flag"></span> <?= UOJLocale::get('hacks') ?></a></li>
+			<?php endif; ?>
+			<?php if (queryBannerStatus('blog')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::blog_list_url() ?>"><span class="glyphicon glyphicon-edit"></span> <?= UOJLocale::get('blogs') ?></a></li>
+			<?php endif; ?>
+			<?php if (queryBannerStatus('help')['status']): ?>
 			<li class="nav-item"><a class="nav-link" href="<?= HTML::url('/faq') ?>"><span class="glyphicon glyphicon-info-sign"></span> <?= UOJLocale::get('help') ?></a></li>
+				<?php endif; ?>
 		</ul>
 		<form id="form-search-problem" class="form-inline my-2 my-lg-0" method="get">
 			 <div class="input-group">

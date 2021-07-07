@@ -298,6 +298,43 @@ EOD;
 EOD;
 	};
 	
+	$bannerlist_cols = array('banner_name', 'status');
+	$bannerlist_config = array();
+	$bannerlist_header_row = <<<EOD
+	<tr>
+		<th>菜单名称</th>
+		<th>状态</th>
+	</tr>
+EOD;
+	$bannerlist_print_row = function($row) {
+		$row['status'] = $row['status'] ? '已启用' : '未启用';
+		echo <<<EOD
+			<tr>
+				<td>{$row['banner_name']}</td>
+				<td>{$row['status']}</td>
+			</tr>
+EOD;
+	};
+
+	$banner_status_changer = new UOJForm('banner_status_changer');
+	$banner_status_changer->addInput('banner_name', 'text', '菜单名称', '',
+		function ($x, &$vdata) {
+			if (!validateUsername($x)) {
+				return '不合法';
+			}
+			if (!queryBannerName($x)) {
+				return '不合法';
+			}
+			$vdata['name'] = $x;
+			return '';
+		},
+		null
+	);
+	$banner_status_changer->handle = function(&$vdata) {
+		DB::update("update banner_info SET status = CASE status WHEN 0 THEN 1 WHEN 1 THEN 0 END where banner_name='{$vdata['name']}'");
+	};
+	$banner_status_changer->runAtServer();
+
 	$cur_tab = isset($_GET['tab']) ? $_GET['tab'] : 'users';
 	
 	$tabs_info = array(
@@ -328,6 +365,10 @@ EOD;
 		'judger' => array(
 			'name' => '评测机管理',
 			'url' => '/super-manage/judger'
+		),
+		'banner' => array(
+			'name' => '顶部菜单管理',
+			'url' => '/super-manage/banner'
 		)
 	);
 	
@@ -457,8 +498,14 @@ EOD;
 				<?php $judger_deleter->printHTML(); ?>
 			</div>
 			<h3>评测机列表</h3>
-			<?php echoLongTable($judgerlist_cols, 'judger_info', "1=1", '', $judgerlist_header_row, $judgerlist_print_row, $judgerlist_config) ?>
+			<?php echoLongTable($judgerlist_cols, 'judger_info', "1=1", '', $judgerlist_header_row, $judgerlist_print_row, $judgerlist_config); ?>
+		<?php elseif ($cur_tab === 'banner'): ?>
+			<h3>菜单列表</h3>
+			<?php echoLongTable($bannerlist_cols, 'banner_info', "1=1", '', $bannerlist_header_row, $bannerlist_print_row, $bannerlist_config); ?>
+			<h3>修改菜单状态</h3>
+			<?php $banner_status_changer->printHTML(); ?>	
 		<?php endif ?>
 	</div>
+	
 </div>
 <?php echoUOJPageFooter() ?>
