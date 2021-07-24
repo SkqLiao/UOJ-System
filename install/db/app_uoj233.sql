@@ -706,3 +706,20 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+CREATE TABLE `banner_info` (
+  `banner_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 转存表中的数据 `banner_info`
+--
+
+INSERT INTO `banner_info` (`banner_name`, `status`) VALUES
+('contest', 1),
+('problem', 1),
+('submission', 1),
+('hack', 1),
+('blog', 1),
+('help', 1);
+COMMIT;
